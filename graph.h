@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <stack>
+#include <iomanip>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ public:
     Vertex()
     {}
 
-    Vertex(vector<pair<int, int>> adj)
+    Vertex(const vector<pair<int, int>>& adj)
     {
         adj_vert = adj;
     }
@@ -31,6 +32,7 @@ public:
 
     void dijkst_alg(Vertex& beg)
     {
+        clear();
         beg.label = 0;
         Vertex* cur;
 
@@ -47,7 +49,14 @@ public:
                 }
             }
 
-            if (min_label == 100000) return;
+            if (min_label == 100000)
+            {
+                for(int i = 0; i < points.size(); i++)
+                {
+                    cout << i << ":" << points[i].label << endl;
+                }
+                return;
+            }
 
             cur->is_visited = true;
 
@@ -106,7 +115,7 @@ public:
         {
             for(int j = 0; j < points.size(); j++)
             {
-                cout << matrix[i][j] << " ";
+                cout << matrix[i][j] << " " << setw(7);
             }
             cout << endl;
         }
@@ -135,10 +144,15 @@ public:
                 }
             }
         }
+        for(int i = 0; i < points.size(); i++)
+        {
+            cout << i << ":" << points[i].label << endl;
+        }
     }
 
-    void top_sort(Vertex& ver, stack<int>* stack)
+    void top_sort(Vertex& ver, stack<int>& stack)
     {
+        clear();
         Vertex* cur = &ver;
         cur->is_visited = true;
 
@@ -156,7 +170,16 @@ public:
             k++;
         }
 
-        stack->push(k);
+        stack.push(k);
+    }
+
+    void clear()
+    {
+        for(int i = 0; i < points.size(); i++)
+        {
+            points[i].is_visited = false;
+            points[i].label = 100000;
+        }
     }
 };
 
